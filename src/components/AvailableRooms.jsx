@@ -4,13 +4,13 @@
 import RoomCard from "@/components/RoomCard";
 
 const getData=async()=>{
-    const res=await fetch('http://localhost:8000/rooms')
+    const res=await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rooms`)
     return await res.json();
 }
 const AvailableRooms =async () => {
   
  const rooms=await getData();
- console.log(rooms);
+//  console.log(rooms);
   return (
     <section className="bg-[#0b130b] py-16 px-4 sm:px-8 lg:px-16 min-h-screen">
       <div className="max-w-7xl mx-auto">

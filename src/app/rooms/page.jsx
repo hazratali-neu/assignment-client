@@ -2,17 +2,12 @@ import RoomCard from "@/components/RoomCard";
 
 // ডেটা ফেচিং ফাংশন (Next.js Server Component)
 const getAllRooms = async () => {
-  const res = await fetch('http://localhost:8000/rooms', { cache: 'no-store' });
-  if (!res.ok) {
-    throw new Error('Failed to fetch rooms data');
-  }
-  return await res.json();
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/allrooms`);
+  return res.json();
 };
 
 const RoomsPage = async () => {
-  const rooms = await getAllRooms();
-
-  // আপনার ইমেজ ফাইলের মতো অ্যামেনিটিজের লিস্ট
+  const allrooms = await getAllRooms();
   const staticAmenities = ["Whiteboard", "Projector", "Wi-Fi", "Power Outlets", "Quiet Zone", "Air Conditioning"];
 
   return (
@@ -87,16 +82,16 @@ const RoomsPage = async () => {
           <div className="lg:col-span-3">
             {/* Top Info Bar */}
             <div className="mb-4 text-sm text-gray-400">
-              Showing <span className="text-white font-semibold">{rooms?.length || 0}</span> of <span className="text-white font-semibold">{rooms?.length || 0}</span> rooms
+              Showing <span className="text-white font-semibold">{allrooms?.length || 0}</span> of <span className="text-white font-semibold">{allrooms?.length || 0}</span> rooms
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {rooms?.map((room) => (
+              {allrooms?.map((room) => (
                 <RoomCard key={room._id} room={room} />
               ))}
             </div>
 
-            {rooms?.length === 0 && (
+            {allrooms?.length === 0 && (
               <div className="text-center py-20 text-gray-500">
                 No rooms found matching your criteria.
               </div>
