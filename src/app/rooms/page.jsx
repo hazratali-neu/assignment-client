@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import RoomCard from "@/components/RoomCard";
+import { Loader2 } from "lucide-react";
 
 const STATIC_AMENITIES = [
-  "Whiteboard", "Projector", "Wi-Fi", 
+  "Whiteboard", "Projector", "Wi-Fi",
   "Power Outlets", "Quiet Zone", "Air Conditioning"
 ];
 
@@ -44,7 +45,7 @@ export default function RoomsPage() {
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/allrooms?${params.toString()}`);
         if (!res.ok) throw new Error("Failed to fetch rooms");
-        
+
         const data = await res.json();
         setAllRooms(data);
       } catch (err) {
@@ -65,7 +66,7 @@ export default function RoomsPage() {
   return (
     <div className="min-h-screen bg-[#070d07] text-white py-10 px-4 sm:px-6 lg:px-12 pt-24">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Header Text */}
         <div className="mb-8">
           <h1 className="text-3xl font-serif font-bold mb-1">Browse Rooms</h1>
@@ -73,12 +74,12 @@ export default function RoomsPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          
+
           {/* ================= LEFT SIDE: FILTERS ================= */}
           <div className="bg-[#111c11] border border-gray-800/80 p-5 rounded-xl h-fit sticky top-24">
             <div className="flex justify-between items-center mb-5">
               <h2 className="text-lg font-semibold tracking-wide">Refine</h2>
-              <button 
+              <button
                 onClick={handleReset}
                 className="text-xs text-gray-400 hover:text-white flex items-center gap-1 transition"
               >
@@ -91,11 +92,11 @@ export default function RoomsPage() {
               <label className="block text-xs text-gray-400 mb-1.5 font-medium">Search by name</label>
               <div className="relative">
                 <span className="absolute inset-y-0 left-3 flex items-center text-gray-500">🔍</span>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="e.g. Quiet Pod" 
+                  placeholder="e.g. Quiet Pod"
                   className="w-full bg-[#070d07] border border-gray-700/60 rounded-lg py-2 pl-9 pr-3 text-sm focus:outline-none focus:border-yellow-600 text-gray-200"
                 />
               </div>
@@ -107,8 +108,8 @@ export default function RoomsPage() {
               <div className="space-y-2">
                 {STATIC_AMENITIES.map((amenity, idx) => (
                   <label key={idx} className="flex items-center gap-2.5 text-sm text-gray-300 cursor-pointer hover:text-white transition">
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       checked={selectedAmenities.includes(amenity)}
                       onChange={() => handleAmenityChange(amenity)}
                       className="accent-[#cca43b] rounded bg-transparent border-gray-600 h-4 w-4"
@@ -119,7 +120,7 @@ export default function RoomsPage() {
               </div>
             </div>
 
-          
+
           </div>
 
 
@@ -131,8 +132,8 @@ export default function RoomsPage() {
             </div>
 
             {loading ? (
-              <div className="text-center py-20 text-gray-400 flex items-center justify-center gap-2">
-                <span className="animate-spin text-xl">⏳</span> Searching active database...
+              <div className="flex items-center justify-center py-20">
+                <Loader2 className="w-10 h-10 animate-spin text-yellow-500" />
               </div>
             ) : allrooms?.length === 0 ? (
               <div className="text-center py-20 text-gray-500">

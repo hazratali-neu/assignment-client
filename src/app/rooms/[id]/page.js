@@ -18,7 +18,8 @@ import {
   ArrowLeft,
   CheckSquare,
   Square,
-  X
+  X,
+  Loader2
 } from "lucide-react";
 import { getRoomDetails } from "@/lib/data"; 
 
@@ -30,6 +31,7 @@ const ALL_AMENITIES_OPTIONS = [
   "Quiet Zone",
   "Air Conditioning"
 ];
+
 
 export default function RoomDetailsPage({ params }) {
   const router = useRouter();
@@ -95,13 +97,13 @@ export default function RoomDetailsPage({ params }) {
     fetchRoom();
   }, [params]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
-        Loading room details engine...
-      </div>
-    );
-  }
+ if (loading) {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <Loader2 className="w-10 h-10 animate-spin text-blue-500" />
+    </div>
+  );
+}
 
   if (!room) {
     return (

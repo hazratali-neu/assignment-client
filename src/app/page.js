@@ -5,6 +5,10 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import Testimonials from "@/components/Testimonials";
 import AvailableRooms from "@/components/AvailableRooms";
 
+export const metadata = {
+  title: "StudyNook – Home",
+};
+
 export default function Home() {
   return (
     <div >

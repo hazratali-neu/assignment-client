@@ -7,6 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { Calendar, Clock, DollarSign, XCircle, ArrowLeft, Loader2 } from "lucide-react";
+import CancelBookingModal from "@/components/CancelBookingModal";
+// import CancelBookingModal from "@/components/CancelBookingModal"; // ✅ Modal import
 
 export default function MyBookingsPage() {
   const router = useRouter();
@@ -14,8 +16,8 @@ export default function MyBookingsPage() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [cancellingId, setCancellingId] = useState(null);
+  const [modalBooking, setModalBooking] = useState(null); // ✅ কোন booking এর modal খোলা আছে
 
-  // লোকাল আজকের তারিখ (YYYY-MM-DD ফরম্যাটে কম্পেয়ার করার জন্য)
   const todayStr = new Date().toLocaleDateString('en-CA');
 
   useEffect(() => {
@@ -44,10 +46,8 @@ export default function MyBookingsPage() {
     }
   }, [session, isPending, router]);
 
-  // বুকিং ক্যানসেল হ্যান্ডলার
+  // ✅ Cancel handler — এখন modal থেকে call হবে
   const handleCancelBooking = async (bookingId) => {
-    if (!confirm("Are you sure you want to cancel this booking?")) return;
-    
     setCancellingId(bookingId);
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/cancel/${bookingId}`, {
@@ -58,31 +58,40 @@ export default function MyBookingsPage() {
       if (!res.ok) throw new Error(data.error || "Cancellation failed");
 
       toast.success("Booking cancelled successfully!");
-      
-      // লোকাল স্টেট আপডেট করে স্ট্যাটাস 'cancelled' করে দেওয়া
+
       setBookings(prev =>
         prev.map(b => b._id === bookingId ? { ...b, status: "cancelled" } : b)
       );
+
+      setModalBooking(null); // ✅ সফল হলে modal বন্ধ করো
     } catch (err) {
       toast.error(err.message);
     } finally {
       setCancellingId(null);
     }
   };
+// import { Loader2 } from "lucide-react";
 
-  if (isPending || loading) {
-    return (
-      <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center gap-3">
-        <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
-        <p className="text-sm text-gray-400">Loading your secured reservations...</p>
-      </div>
-    );
-  }
+if (loading) {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <Loader2 className="w-10 h-10 animate-spin" />
+    </div>
+  );
+}
 
   return (
     <main className="min-h-screen bg-gray-950 text-gray-100 py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto space-y-8">
-        
+
+        {/* ✅ Cancel Confirmation Modal */}
+        <CancelBookingModal
+          booking={modalBooking}
+          onConfirm={handleCancelBooking}
+          onClose={() => setModalBooking(null)}
+          isLoading={cancellingId === modalBooking?._id}
+        />
+
         {/* Header Block */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="space-y-1">
@@ -98,7 +107,7 @@ export default function MyBookingsPage() {
           </Link>
         </div>
 
-        {/* Empty State Requirements */}
+        {/* Empty State */}
         {bookings.length === 0 ? (
           <div className="bg-gray-900 border border-gray-800 rounded-2xl p-12 text-center max-w-md mx-auto space-y-4">
             <div className="w-12 h-12 bg-gray-950 border border-gray-800 rounded-full flex items-center justify-center mx-auto text-gray-500">
@@ -116,7 +125,6 @@ export default function MyBookingsPage() {
             </Link>
           </div>
         ) : (
-          /* Bookings Card List / Table for Desktop */
           <div className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden shadow-xl">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
@@ -132,8 +140,7 @@ export default function MyBookingsPage() {
                 <tbody className="divide-y divide-gray-800/60 text-sm">
                   {bookings.map((booking) => {
                     const isConfirmed = booking.status !== "cancelled";
-                    // ক্যানসেল বাটন কন্ডিশন: স্ট্যাটাস confirmed হতে হবে এবং ডেট আজকের বা তার পরের হতে হবে
-                    const isFutureBooking = booking.date >= todayStr; 
+                    const isFutureBooking = booking.date >= todayStr;
                     const canCancel = isConfirmed && isFutureBooking;
 
                     return (
@@ -194,12 +201,11 @@ export default function MyBookingsPage() {
                         <td className="py-4 px-6 text-right">
                           {canCancel ? (
                             <button
-                              disabled={cancellingId === booking._id}
-                              onClick={() => handleCancelBooking(booking._id)}
-                              className="inline-flex items-center gap-1.5 text-xs font-semibold bg-red-950/40 hover:bg-red-900/60 border border-red-900/40 text-red-400 px-3 py-1.5 rounded-lg transition disabled:opacity-40"
+                              onClick={() => setModalBooking(booking)} // ✅ confirm() এর বদলে modal open
+                              className="inline-flex items-center gap-1.5 text-xs font-semibold bg-red-950/40 hover:bg-red-900/60 border border-red-900/40 text-red-400 px-3 py-1.5 rounded-lg transition"
                             >
                               <XCircle size={14} />
-                              {cancellingId === booking._id ? "Processing..." : "Cancel"}
+                              Cancel
                             </button>
                           ) : (
                             <span className="text-xs text-gray-600 font-medium">No actions available</span>

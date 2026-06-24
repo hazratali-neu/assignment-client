@@ -1,6 +1,9 @@
 import RoomCard from "@/components/RoomCard";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+export const metadata = {
+  title: "My Listings",
+};
 
 const getDataListing = async (userId) => {
   const res = await fetch(
