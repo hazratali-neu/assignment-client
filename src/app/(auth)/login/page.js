@@ -3,7 +3,7 @@
 import { Button, Input } from '@heroui/react';
 import Link from 'next/link';
 import { Mail, Lock, ArrowRight, Globe } from 'lucide-react';
-import { signIn } from '@/lib/auth-client';
+import { authClient, signIn } from '@/lib/auth-client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 
@@ -12,6 +12,13 @@ export default function Login() {
   const searchParams = useSearchParams();
 
   const callbackUrl = searchParams.get('callbackUrl') || '/';
+
+  const handleGoogleLogin = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+    console.log(data);
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -91,6 +98,7 @@ export default function Login() {
           {/* Google Login */}
           <Button
             type="button"
+            onClick={handleGoogleLogin}
             className="w-full h-12 border border-slate-300 bg-white text-black"
           >
             <Globe className="w-4 h-4 mr-2" />

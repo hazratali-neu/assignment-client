@@ -3,13 +3,19 @@
 import { Button, Input } from '@heroui/react';
 import Link from 'next/link';
 import { User, Mail, Lock, ArrowRight, Globe } from 'lucide-react';
-import { signUp} from '@/lib/auth-client';
+import { authClient, signUp} from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 export default function Register() {
   const router = useRouter();
 
+   const handleGoogleLogin = async () => {
+      const data = await authClient.signIn.social({
+        provider: "google",
+      });
+      console.log(data);
+    };
   // password validation function
   const validatePassword = (password) => {
     const hasUpper = /[A-Z]/.test(password);
@@ -129,6 +135,7 @@ export default function Register() {
            {/* Google Button */}
         <Button
           // onClick={handleGoogleLogin}
+          onClick={handleGoogleLogin}
           className="w-full h-12 border border-slate-300 bg-white text-black"
         >
           <Globe className="w-4 h-4 mr-2" />
