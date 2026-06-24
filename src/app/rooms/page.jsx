@@ -136,8 +136,8 @@ export default function RoomsPage() {
                 <Loader2 className="w-10 h-10 animate-spin text-yellow-500" />
               </div>
             ) : allrooms?.length === 0 ? (
-              <div className="text-center py-20 text-gray-500">
-                No rooms found matching your criteria.
+              <div className="text-center text-3xl bg-slate-700 rounded-2xl text-red-500 py-20 text-gray-500">
+                No rooms Found.
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
