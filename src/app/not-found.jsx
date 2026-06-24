@@ -1,13 +1,13 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "StudyNook – Page Not Found",
+  title: "StudyNook - Page Not Found",
 };
 export default function NotFound() {
   return (
     <div className="min-h-[70vh] bg-slate-800 flex items-center justify-center px-4">
       <div className="text-center max-w-lg">
-        <h1 className="text-7xl md:text-8xl font-extrabold bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
+        <h1 className="text-7xl md:text-8xl font-extrabold bg-linear-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
           404
         </h1>
 
@@ -16,7 +16,7 @@ export default function NotFound() {
         </h2>
 
         <p className="mt-3 text-gray-400 leading-relaxed">
-          Oops! The page you're looking for doesn't exist or may have been moved.
+          Oops! The page you&apos;re looking for doesn&apos;t exist or may have been moved.
         </p>
 
         <Link
