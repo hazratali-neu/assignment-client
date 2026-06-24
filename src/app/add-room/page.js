@@ -77,7 +77,7 @@ export default function AddRoomPage() {
     <div className="min-h-screen bg-[#111827] py-12 px-4">
       <div className="max-w-2xl mx-auto bg-[#1a1f2e] rounded-2xl p-8">
 
-        <h1 className="text-2xl font-semibold text-slate-100 mb-7">Add a new room</h1>
+        <h1 className="text-2xl font-semibold text-slate-200 mb-7">Add a new room</h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
 
