@@ -9,3 +9,4 @@ Webside Name: StudyNook
 - Study room booking system.
 - Booking conflict prevention.
 - Responsive design for mobile, tablet, and desktop.
+- Dynamic page titles for every route.
