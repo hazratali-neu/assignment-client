@@ -25,7 +25,7 @@ const MyListingPage = async () => {
   if (!session?.user) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <h2 className="text-lg text-gray-400">Please login first</h2>
+        <h2 className="text-lg text-gray-400">Please login First</h2>
       </div>
     );
   }
