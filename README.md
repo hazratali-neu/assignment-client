@@ -7,3 +7,5 @@ Webside Name: StudyNook
 - User authentication with Google Login.
 - Private routes for logged-in users.
 - Study room booking system.
+- Booking conflict prevention.
+- Responsive design for mobile, tablet, and desktop.
