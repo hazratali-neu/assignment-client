@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSession, signOut } from "@/lib/auth-client";
+import { FaBookOpen } from "react-icons/fa";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -12,15 +13,13 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const linkClass = (path) =>
-    `relative transition duration-200 hover:text-yellow-600 ${
-      pathname === path
-        ? "text-yellow-600 font-semibold after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-full after:h-[2px] after:bg-yellow-500"
-        : "text-gray-700"
+    `relative transition duration-200 hover:text-yellow-600 ${pathname === path
+      ? "text-yellow-600 font-semibold after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-full after:h-[2px] after:bg-yellow-500"
+      : "text-gray-700"
     }`;
 
   const mobileLinkClass = (path) =>
-    `block px-4 py-3 text-sm font-medium border-b border-gray-100 hover:bg-gray-50 transition ${
-      pathname === path ? "text-yellow-600 font-semibold" : "text-gray-700"
+    `block px-4 py-3 text-sm font-medium border-b border-gray-100 hover:bg-gray-50 transition ${pathname === path ? "text-yellow-600 font-semibold" : "text-gray-700"
     }`;
 
   const handleLogout = async () => {
@@ -34,7 +33,8 @@ const Navbar = () => {
       <div className="flex items-center px-4 sm:px-8 lg:px-35 py-3 justify-between">
 
         {/* Logo */}
-        <Link href="/" className="text-xl sm:text-2xl font-bold text-blue-600">
+        <Link href="/" className="text-xl flex items-center gap-2 sm:text-2xl font-bold text-blue-600">
+          <FaBookOpen />
           StudyNook
         </Link>
 
