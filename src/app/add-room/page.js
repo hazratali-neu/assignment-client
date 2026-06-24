@@ -35,10 +35,12 @@ export default function AddRoomPage() {
 
     const name = formData.get("name");
     const description = formData.get("description");
-   const image = formData.get("imageUrl");
+    const image = formData.get("imageUrl");
     const floor = formData.get("floor");
     const capacity = formData.get("capacity");
     const hourlyRate = formData.get("hourlyRate");
+    const totalSlot = formData.get("totalSlot");      // নতুন ফিল্ড গ্র্যাব
+    const bookingCount = formData.get("bookingCount");  // নতুন ফিল্ড গ্র্যাব
 
     setLoading(true);
     try {
@@ -52,6 +54,8 @@ export default function AddRoomPage() {
           floor,
           capacity: Number(capacity),
           hourlyRate: Number(hourlyRate),
+          totalSlot: Number(totalSlot || 0),        // ডাটাবেজে পাঠানোর লজিক
+          bookingCount: Number(bookingCount || 0),  // ডাটাবেজে পাঠানোর লজিক
           amenities,
           createdBy: session?.user?.id,
         }),
@@ -120,7 +124,7 @@ export default function AddRoomPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
               { label: "Floor", name: "floor", type: "text", placeholder: "e.g. 3rd Floor" },
-              { label: "Capacity", name: "capacity", type: "number", placeholder: "e.g. 4" },
+              { label: "Capacity", name: "capacity", type: "number", placeholder: "e.g. 5" },
               { label: "Hourly rate ($)", name: "hourlyRate", type: "number", placeholder: "e.g. 5" },
             ].map((field) => (
               <div key={field.name}>
@@ -136,6 +140,34 @@ export default function AddRoomPage() {
                 />
               </div>
             ))}
+          </div>
+
+          {/* Total Slots + Booking Count (নতুন ইনপুট ফিল্ড রো) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-medium text-slate-400 mb-1.5 uppercase tracking-wide">
+                Total Slots
+              </label>
+              <input
+                name="totalSlot"
+                type="number"
+                placeholder="e.g. 5"
+                min="0"
+                className="w-full bg-[#252b3b] border border-[#2d3548] rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-amber-400 transition"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-slate-400 mb-1.5 uppercase tracking-wide">
+                Initial Booking Count
+              </label>
+              <input
+                name="bookingCount"
+                type="number"
+                placeholder="e.g. 12"
+                min="0"
+                className="w-full bg-[#252b3b] border border-[#2d3548] rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-amber-400 transition"
+              />
+            </div>
           </div>
 
           {/* Amenities */}

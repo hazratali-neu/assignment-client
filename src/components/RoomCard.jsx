@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 const RoomCard = ({ room }) => {
   const { _id, name, description, floor, capacity, hourlyRate, image, amenities } = room;
@@ -13,12 +12,11 @@ const RoomCard = ({ room }) => {
     <div className="bg-[#0f1a0f] rounded-xl overflow-hidden border border-gray-800 flex flex-col h-full">
 
       {/* Image */}
-      <div className="h-48 w-full relative">
-        <Image
+      <div className="h-48 w-full relative overflow-hidden">
+        <img
           src={image}
           alt={name}
-          fill
-          className="object-cover transition-transform duration-500 hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
         />
       </div>
 
@@ -31,7 +29,6 @@ const RoomCard = ({ room }) => {
             <h3 className="text-lg font-serif font-bold tracking-wide line-clamp-1 text-gray-100">
               {name}
             </h3>
-
             <span className="bg-[#cca43b] text-black font-semibold text-xs px-2.5 py-1 rounded-full whitespace-nowrap">
               ${hourlyRate}/hr
             </span>
@@ -58,7 +55,6 @@ const RoomCard = ({ room }) => {
                 {amenity}
               </span>
             ))}
-
             {remainingCount > 0 && (
               <span className="bg-gray-800/80 text-[#cca43b] text-[11px] px-2 py-0.5 rounded font-medium">
                 +{remainingCount} more

@@ -1,3 +1,4 @@
+
 import dns from "node:dns"
 dns.setServers(['1.1.1.1', '1.0.0.1']);
 import { Geist, Geist_Mono } from "next/font/google";
